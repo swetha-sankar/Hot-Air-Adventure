@@ -28,6 +28,24 @@ class Introduction(arcade.Window):
         self.start.draw()
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        MyGame().start_new_game()
+
+
+
+class MyGame(arcade.Window):
+    def __init__(self):
+        super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE)
+
+    def setup(self):
+        arcade.set_background_color(BACKGROUND_COLOR)
+
+    def start_new_game(self):
+        pass
+
+    def on_draw(self):
+        pass
+
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         pass
 
 
