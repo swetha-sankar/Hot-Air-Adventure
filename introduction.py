@@ -7,6 +7,7 @@ WINDOW_HEIGHT = 500
 BACKGROUND_COLOR = arcade.color.WHITE
 GAME_TITLE = "Hot Air Adventure"
 GAME_SPEED = 1/60
+MOVEMENT_SPEED = 2
 
 
 class Introduction(arcade.View):
@@ -38,13 +39,31 @@ class HowToPlay(arcade.View):
 
 
 class LevelOne(arcade.View):
+    player = arcade.Sprite("images/instructions.png")
+
     def on_show(self):
-        arcade.set_background_color(arcade.color.ORANGE_PEEL)
+        arcade.set_background_color(arcade.color.SKY_BLUE)
 
     def on_draw(self):
         arcade.start_render()
         arcade.draw_text("Game - press SPACE to advance", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
                          arcade.color.BLACK)
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.UP:
+            self.player_sprite.change_y = MOVEMENT_SPEED
+        elif key == arcade.key.DOWN:
+            self.player_sprite.change_y = -MOVEMENT_SPEED
+        elif key == arcade.key.LEFT:
+            self.player_sprite.change_x = -MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT:
+            self.player_sprite.change_x = MOVEMENT_SPEED
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.UP or key == arcade.key.DOWN:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.player_sprite.change_x = 0
 
 
 def main():
