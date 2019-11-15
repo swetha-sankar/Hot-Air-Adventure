@@ -9,17 +9,8 @@ GAME_TITLE = "Hot Air Adventure"
 GAME_SPEED = 1/60
 
 
-class Introduction(arcade.Window):
+class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
-
-    def __init__(self):
-        super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE)
-
-    def setup(self):
-        arcade.set_background_color(BACKGROUND_COLOR)
-
-    def start_new_game(self):
-        self.on_draw()
 
     def on_draw(self):
         arcade.start_render()
@@ -27,31 +18,39 @@ class Introduction(arcade.Window):
         self.start.center_y = WINDOW_HEIGHT / 2
         self.start.draw()
 
-    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
-        MyGame().start_new_game()
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        playing = HowToPlay()
+        self.window.show_view(playing)
 
 
-
-class MyGame(arcade.Window):
-    def __init__(self):
-        super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE)
-
-    def setup(self):
-        arcade.set_background_color(BACKGROUND_COLOR)
-
-    def start_new_game(self):
-        pass
+class HowToPlay(arcade.View):
+    play = arcade.make_soft_circle_texture(6, arcade.color.BLUE, 4, 5)
 
     def on_draw(self):
-        pass
+        arcade.start_render()
+        self.play.center_x = WINDOW_WIDTH / 2
+        self.play.center_y = WINDOW_HEIGHT / 2
+        self.play.draw(5, 500, 5, 6)
 
-    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
-        pass
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        level_one = LevelOne()
+        self.window.show_view(level_one)
+
+
+class LevelOne(arcade.View):
+    def on_show(self):
+        arcade.set_background_color(arcade.color.ORANGE_PEEL)
+
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_text("Game - press SPACE to advance", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
+                         arcade.color.BLACK)
 
 
 def main():
-    window = Introduction()
-    window.setup()
+    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Hot Air Adventure")
+    introduction = Introduction()
+    window.show_view(introduction)
     arcade.run()
 
 
