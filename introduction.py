@@ -2,7 +2,7 @@ import arcade
 
 
 # Define constants
-WINDOW_WIDTH = 500
+WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 500
 BACKGROUND_COLOR = arcade.color.WHITE
 GAME_TITLE = "Hot Air Adventure"
@@ -24,13 +24,13 @@ class Introduction(arcade.View):
 
 
 class HowToPlay(arcade.View):
-    play = arcade.make_soft_circle_texture(6, arcade.color.BLUE, 4, 5)
+    play = arcade.Sprite("images/instructions.png")
 
     def on_draw(self):
         arcade.start_render()
         self.play.center_x = WINDOW_WIDTH / 2
         self.play.center_y = WINDOW_HEIGHT / 2
-        self.play.draw(5, 500, 5, 6)
+        self.play.draw()
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         level_one = LevelOne()
