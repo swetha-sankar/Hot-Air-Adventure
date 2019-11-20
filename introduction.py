@@ -9,7 +9,7 @@ BACKGROUND_COLOR = arcade.color.WHITE
 GAME_TITLE = "Hot Air Adventure"
 GAME_SPEED = 1/60
 MOVEMENT_SPEED = 6
-PLAYER = arcade.load_texture("images/player.jpg")
+PLAYER = arcade.load_texture("images/player.png")
 BUILDING_HEIGHT = random.randint(25, 500)
 BUILDING = arcade.make_soft_square_texture(BUILDING_HEIGHT, arcade.color.GRAY, 255, 128)
 
@@ -44,7 +44,7 @@ class HowToPlay(arcade.View):
 
 class Balloon(arcade.Sprite):
     def __init__(self):
-        super.init("images/player.jpg")
+        super.init("images/player.png")
 
 
 
