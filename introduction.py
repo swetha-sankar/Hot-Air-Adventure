@@ -71,7 +71,7 @@ class LevelOne(arcade.View):
         self.timer = 0
         self.center_x = WINDOW_WIDTH / 2
         self.center_y = WINDOW_HEIGHT / 2
-        self.texture = arcade.Sprite("images/player.png")
+        self.texture = arcade.Sprite("images/player.png", scale=.3)
 
     def on_show(self):
         arcade.set_background_color(arcade.color.SKY_BLUE)
@@ -81,6 +81,9 @@ class LevelOne(arcade.View):
         self.texture.draw()
         arcade.draw_text("Welcome to Level 1", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
                          arcade.color.BLACK)
+
+    def on_update(self, delta_time):
+        self.texture.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
