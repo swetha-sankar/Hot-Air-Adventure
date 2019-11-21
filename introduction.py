@@ -13,7 +13,6 @@ PLAYER = arcade.load_texture("images/player.png")
 BUILDING_HEIGHT = random.randint(25, 500)
 BUILDING = arcade.make_soft_square_texture(BUILDING_HEIGHT, arcade.color.GRAY, 255, 128)
 
-
 class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
 
@@ -44,7 +43,7 @@ class HowToPlay(arcade.View):
 
 class Balloon(arcade.Sprite):
     def __init__(self):
-        super.init("images/player.png")
+        self.texture = "images/player.png"
 
 
 
@@ -72,13 +71,14 @@ class LevelOne(arcade.View):
         self.timer = 0
         self.center_x = WINDOW_WIDTH / 2
         self.center_y = WINDOW_HEIGHT / 2
-        self.texture = PLAYER
+        self.texture = arcade.Sprite("images/player.png")
 
     def on_show(self):
         arcade.set_background_color(arcade.color.SKY_BLUE)
 
     def on_draw(self):
         arcade.start_render()
+        self.texture.draw()
         arcade.draw_text("Welcome to Level 1", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
                          arcade.color.BLACK)
 
