@@ -5,18 +5,17 @@ import random
 # Define constants
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 500
-BACKGROUND_COLOR = arcade.color.WHITE
 GAME_TITLE = "Hot Air Adventure"
 GAME_SPEED = 1/60
 MOVEMENT_SPEED = 6
-PLAYER = arcade.load_texture("images/player.png", scale=.2)
 BUILDING_HEIGHT = random.randint(25, 500)
-BUILDING = arcade.make_soft_square_texture(BUILDING_HEIGHT, arcade.color.GRAY, 255, 128)
+BUILDING = arcade.make_soft_square_texture(250, arcade.color.BLACK)
 LEFT_VIEWPORT_MARGIN = 150
 RIGHT_VIEWPORT_MARGIN = 150
 BOTTOM_VIEWPORT_MARGIN = 50
 TOP_VIEWPORT_MARGIN = 100
 
+PLAYER = arcade.load_texture("images/player.png", scale=.2)
 
 class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
@@ -55,6 +54,7 @@ class Player(arcade.Sprite):
         self.boundary_bottom = 0
         self.boundary_right = 800
 
+
 class Buildings(arcade.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
@@ -85,12 +85,11 @@ class LevelOne(arcade.View):
         self.texture.drag = .05
         self.texture.center_x = 0
         self.texture.center_y = 250
-        self.physics_engine = arcade.PhysicsEngineSimple(self.texture, self.building_list)
-        self.view_bottom = 0
-        self.view_left = 0
+
 
     def setup(self):
         self.building_list = arcade.SpriteList()
+        self.building_list.append(Buildings(random.randint(300, 250), random.randint(300, 250)))
 
     def on_show(self):
         arcade.set_background_color(arcade.color.SKY_BLUE)
@@ -98,25 +97,13 @@ class LevelOne(arcade.View):
     def on_draw(self):
         arcade.start_render()
         self.texture.draw()
+        self.building_list.draw()
         arcade.draw_text("Welcome to Level 1", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
                          arcade.color.BLACK)
 
     def on_update(self, delta_time):
         self.texture.update()
-        self.physics_engine.update()
-        changed = False
-        right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN
-        if self.texture.right > right_boundary:
-            self.view_left += self.texture.right - right_boundary
-            changed = True
-        top_boundary = self.view_bottom + WINDOW_HEIGHT - TOP_VIEWPORT_MARGIN
-        if self.texture.top > top_boundary:
-            self.view_bottom += self.texture.top - top_boundary
-            changed = True
-        if changed:
-            self.view_bottom = int(self.view_bottom)
-            self.view_left = int(self.view_left)
-        arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
+        self.building_list.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
