@@ -1,4 +1,4 @@
-from constants import *
+from sprites import *
 
 
 class Introduction(arcade.View):
@@ -28,24 +28,15 @@ class HowToPlay(arcade.View):
         level_one = LevelOne()
         self.window.show_view(level_one)
 
-class Player(arcade.Sprite):
-    def __init__(self, x=0, y=0):
-        super().__init__()
-        self.texture = arcade.load_texture("images/player.png", scale=.15)
 
-    def update(self):
-        super().update()
+class GameOver(arcade.View):
+    game_over = arcade.Sprite("images/game_over.png")
 
-
-class Buildings(arcade.Sprite):
-    def __init__(self, x=0, y=0):
-        super().__init__()
-        self.texture = BUILDING
-        self.center_x = x
-        self.center_y = y
-
-    def on_update(self):
-        self.center_x = self.center_x + 1
+    def on_draw(self):
+        arcade.start_render()
+        self.play.center_x = WINDOW_WIDTH / 2
+        self.play.center_y = WINDOW_HEIGHT / 2
+        self.play.draw()
 
 
 class LevelOne(arcade.View):
@@ -59,19 +50,20 @@ class LevelOne(arcade.View):
         self.texture.drag = .05
         self.texture.center_x = 0
         self.texture.center_y = 250
-
-
-    def setup(self):
-        self.building_list = arcade.SpriteList()
-        self.building_list.append(Buildings(random.randint(300, 250), random.randint(300, 250)))
+        self.coin_list = Coin()
 
     def on_show(self):
         arcade.set_background_color(arcade.color.SKY_BLUE)
+
+    def setup(self):
+        self.building_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
 
     def on_draw(self):
         arcade.start_render()
         self.texture.draw()
         self.building_list.draw()
+        self.coin_list.draw()
 
     def on_update(self, delta_time):
         self.texture.update()
