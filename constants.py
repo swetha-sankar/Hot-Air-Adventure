@@ -12,5 +12,6 @@ LEFT_VIEWPORT_MARGIN = 150
 RIGHT_VIEWPORT_MARGIN = 150
 BOTTOM_VIEWPORT_MARGIN = 50
 TOP_VIEWPORT_MARGIN = 100
-COIN = arcade.load_texture("images/coin.png")
+COIN = arcade.load_texture("images/coin.png", scale = .1)
+COIN_COUNT = 50
 

@@ -2,10 +2,6 @@ from constants import *
 
 
 class Player(arcade.Sprite):
-    def __init__(self, x=0, y=0):
-        super().__init__()
-        self.texture = arcade.load_texture("images/player.png", scale=.15)
-
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
@@ -28,11 +24,7 @@ class Buildings(arcade.Sprite):
 
 
 class Coin(arcade.Sprite):
-    def __init__(self, x=250, y=250):
-        super().__init__()
-        self.texture = arcade.load_texture('images/coin.png', scale=.1)
-        self.center_x = x
-        self.center_y = y
-
+    def update(self):
+        self.center_y -= 1
 
 
