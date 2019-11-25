@@ -1,21 +1,5 @@
-import arcade
-import random
+from constants import *
 
-
-# Define constants
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 500
-GAME_TITLE = "Hot Air Adventure"
-GAME_SPEED = 1/60
-MOVEMENT_SPEED = 6
-BUILDING_HEIGHT = random.randint(25, 500)
-BUILDING = arcade.make_soft_square_texture(250, arcade.color.BLACK)
-LEFT_VIEWPORT_MARGIN = 150
-RIGHT_VIEWPORT_MARGIN = 150
-BOTTOM_VIEWPORT_MARGIN = 50
-TOP_VIEWPORT_MARGIN = 100
-
-PLAYER = arcade.load_texture("images/player.png", scale=.2)
 
 class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
@@ -44,15 +28,13 @@ class HowToPlay(arcade.View):
         level_one = LevelOne()
         self.window.show_view(level_one)
 
-
 class Player(arcade.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
-        self.texture = PLAYER
-        self.boundary_left = 50
-        self.boundary_top = 500
-        self.boundary_bottom = 0
-        self.boundary_right = 800
+        self.texture = arcade.load_texture("images/player.png", scale=.15)
+
+    def update(self):
+        super().update()
 
 
 class Buildings(arcade.Sprite):
@@ -62,16 +44,8 @@ class Buildings(arcade.Sprite):
         self.center_x = x
         self.center_y = y
 
-    def update(self):
-        super().update()
-        if self.right > WINDOW_WIDTH:
-            self.change_x *= -1
-        if self.left < 0:
-            self.change_x *= -1
-        if self.top > WINDOW_HEIGHT:
-            self.change_y *= -1
-        if self.bottom < 0:
-            self.change_y *= -1
+    def on_update(self):
+        self.center_x = self.center_x + 1
 
 
 class LevelOne(arcade.View):
@@ -98,8 +72,6 @@ class LevelOne(arcade.View):
         arcade.start_render()
         self.texture.draw()
         self.building_list.draw()
-        arcade.draw_text("Welcome to Level 1", WINDOW_WIDTH/2, WINDOW_HEIGHT/2,
-                         arcade.color.BLACK)
 
     def on_update(self, delta_time):
         self.texture.update()
