@@ -70,7 +70,7 @@ class LevelOne(arcade.View):
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
             self.coin_list.append(coin)
         for x in range(50):
-            building = arcade.Sprite("images/building.png", scale=.5)
+            building = arcade.Sprite("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 2)
             building.center_y = 0
             building.height = random.randint(500, 800)
@@ -78,14 +78,16 @@ class LevelOne(arcade.View):
 
     def level_2(self):
         arcade.set_background_color(arcade.color.BLACK)
+        self.player_sprite.center_x = 0
+        self.player_sprite.center_y = 0
         for i in range(60):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
             self.coin_list.append(coin)
 
-        for x in range(50):
-            building = arcade.Sprite("images/building.png", scale=.5)
+        for x in range(100):
+            building = arcade.Sprite("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
             building.height = random.randint(500, 800)
@@ -129,8 +131,12 @@ class LevelOne(arcade.View):
             changed = True
         if changed:
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT)
+        if self.coin_list == 0 and self.score < 0:
+            game_over = GameOver()
+            self.window.show_view(game_over)
         if self.score == 25 and self.level == 1:
             self.level += 1
+            arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             self.level_2()
 
     def on_key_press(self, key, modifiers):
