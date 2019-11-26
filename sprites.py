@@ -7,20 +7,12 @@ class Player(arcade.Sprite):
         self.center_y += self.change_y
         if self.left < 0:
             self.left = 0
-        if self.right > WINDOW_WIDTH - 1:
-            self.right = WINDOW_WIDTH - 1
+        if self.right > WINDOW_WIDTH * 2:
+            self.right = WINDOW_WIDTH
         if self.bottom < 0:
             self.bottom = 0
         if self.top > WINDOW_HEIGHT - 1:
             self.top = WINDOW_HEIGHT - 1
-
-
-class Buildings(arcade.Sprite):
-    def __init__(self, x=0, y=0):
-        super().__init__()
-        self.texture = BUILDING
-        self.center_x = x
-        self.center_y = y
 
 
 class Coin(arcade.Sprite):
@@ -28,5 +20,7 @@ class Coin(arcade.Sprite):
         self.center_y -= 2
         if self.top < 0:
             self.bottom = WINDOW_HEIGHT
+
+
 
 
