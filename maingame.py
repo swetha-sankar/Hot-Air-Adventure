@@ -73,10 +73,15 @@ class LevelOne(arcade.View):
     def level_2(self):
         arcade.set_background_color(arcade.color.SKY_BLUE)
         for i in range(60):
-            coin = Coin("images/coin.png", .1)
-            coin.center_x = random.randrange(WINDOW_WIDTH)
-            coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 2)
+            coin = Coin("images/coin.png", .15)
+            coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
+            coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
             self.coin_list.append(coin)
+        for x in range(50):
+            building = arcade.Sprite("images/building.png", scale = .5)
+            building.center_x = random.randrange(WINDOW_WIDTH * 2)
+            building.center_y = random.randrange(WINDOW_HEIGHT)
+            self.building_list.append(building)
 
     def setup(self):
         self.level = 1
@@ -84,11 +89,6 @@ class LevelOne(arcade.View):
         self.coin_list = arcade.SpriteList()
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player_sprite)
-        for x in range(0, 800):
-            building = arcade.Sprite("images/building.png")
-            building.center_x = x
-            building.center_y = 32
-            self.building_list.append(building)
         self.level_1()
 
     def on_draw(self):
@@ -97,10 +97,10 @@ class LevelOne(arcade.View):
         self.building_list.draw()
         self.coin_list.draw()
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 15)
+        arcade.draw_text(output, 700, 20, arcade.color.WHITE, 20)
 
         output = f"Level: {self.level}"
-        arcade.draw_text(output, 10, 35, arcade.color.WHITE, 15)
+        arcade.draw_text(output, 700, 45, arcade.color.WHITE, 20)
 
     def on_update(self, delta_time):
         self.player_sprite.update()
@@ -110,6 +110,10 @@ class LevelOne(arcade.View):
         for coin in coin_hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
+        building_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.building_list)
+        for building in building_hit_list:
+            building.remove_from_sprite_lists()
+            self.score -= 5
         changed = False
         right_boundary = self.view_left + WINDOW_WIDTH - LEFT_VIEWPORT_MARGIN
         if self.player_sprite.right > right_boundary:
