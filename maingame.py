@@ -57,14 +57,13 @@ class LevelOne(arcade.View):
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.score = 0
-        self.player_sprite = Player("images/player.png", scale=.2)
+        self.player_sprite = Player("images/player.png", scale=.15)
 
     def on_show(self):
-        arcade.set_background_color(arcade.color.SKY_BLUE)
         self.level_1()
 
     def level_1(self):
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.SKY_BLUE)
         for i in range(60):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
@@ -78,7 +77,7 @@ class LevelOne(arcade.View):
             self.building_list.append(building)
 
     def level_2(self):
-        arcade.set_background_color(arcade.color.SKY_BLUE)
+        arcade.set_background_color(arcade.color.BLACK)
         for i in range(60):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
@@ -87,9 +86,10 @@ class LevelOne(arcade.View):
 
         for x in range(50):
             building = arcade.Sprite("images/building.png", scale=.5)
-            building.center_x = random.randrange(WINDOW_WIDTH * 2)
+            building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
             building.height = random.randint(500, 800)
+            building.width = random.randint(25, 200)
             self.building_list.append(building)
 
     def setup(self):
