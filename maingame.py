@@ -87,9 +87,11 @@ class LevelOne(arcade.View):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
+            coin.angle = random.randrange(360)
+            coin.change_angle = random.randrange(-5, 6)
             self.coin_list.append(coin)
 
-        for x in range(30):
+        for x in range(20):
             building = Building("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
@@ -138,6 +140,8 @@ class LevelOne(arcade.View):
         if changed:
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT)
         if delta_time == 1 and self.score < 25:
+            self.game_over = True
+        if self.game_over:
             game_over = GameOver()
             self.window.show_view(game_over)
         if self.score == 25 and self.level == 1:
