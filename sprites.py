@@ -8,7 +8,7 @@ class Player(arcade.Sprite):
         if self.left < 0:
             self.left = 0
         if self.right > WINDOW_WIDTH * 2:
-            self.right = WINDOW_WIDTH
+            self.right = WINDOW_WIDTH * 2
         if self.bottom < 0:
             self.bottom = 0
         if self.top > WINDOW_HEIGHT - 1:
@@ -16,7 +16,7 @@ class Player(arcade.Sprite):
 
 class Building(arcade.Sprite):
     def update(self):
-        self.center_y +=.2
+        self.center_y +=.1
 
 
 class Coin(arcade.Sprite):

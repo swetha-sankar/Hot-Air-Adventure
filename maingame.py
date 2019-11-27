@@ -42,7 +42,6 @@ class GameOver(arcade.View):
 class LevelOne(arcade.View):
     def __init__(self):
         super().__init__()
-        self.timer = 0
         self.center_x = WINDOW_WIDTH / 2
         self.center_y = WINDOW_HEIGHT / 2
         self.view_left = 0
@@ -111,13 +110,13 @@ class LevelOne(arcade.View):
         self.building_list.draw()
         self.coin_list.draw()
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 750, 20, arcade.color.WHITE, 20)
+        arcade.draw_text(output, self.player_sprite.center_x, 20, arcade.color.WHITE, 20)
         minutes = int(self.total_time) // 60
         seconds = int(self.total_time) % 60
         output = f"Time: {minutes:02d}: {seconds:02d}"
-        arcade.draw_text(output, 300, 300, arcade.color.WHITE, 30)
+        arcade.draw_text(output, self.player_sprite.center_x, 300, arcade.color.WHITE, 30)
         output = f"Level: {self.level}"
-        arcade.draw_text(output, 750, 45, arcade.color.WHITE, 20)
+        arcade.draw_text(output, self.player_sprite.center_x, 45, arcade.color.WHITE, 20)
 
     def on_update(self, delta_time):
         self.player_sprite.update()
@@ -139,7 +138,7 @@ class LevelOne(arcade.View):
             changed = True
         if changed:
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT)
-        if delta_time == 1 and self.score < 25:
+        if self.total_time == 60 and self.score < 25:
             self.game_over = True
         if self.game_over:
             game_over = GameOver()
@@ -148,6 +147,7 @@ class LevelOne(arcade.View):
             arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             self.level += 1
             self.level_2()
+
 
 
     def on_key_press(self, key, modifiers):
