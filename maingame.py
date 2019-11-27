@@ -51,6 +51,7 @@ class LevelOne(arcade.View):
         self.game_over = False
         self.game_won = False
         self.level = 1
+        self.total_time = 0.0
 
         # Sprite lists
         self.building_list = arcade.SpriteList()
@@ -63,35 +64,36 @@ class LevelOne(arcade.View):
         self.level_1()
 
     def level_1(self):
+        self.total_time = 0.0
         arcade.set_background_color(arcade.color.SKY_BLUE)
         for i in range(60):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
             self.coin_list.append(coin)
-        for x in range(50):
+        for x in range(30):
             building = arcade.Sprite("images/building.png", scale=1)
-            building.center_x = random.randrange(WINDOW_WIDTH * 2)
+            building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
             building.height = random.randint(500, 800)
             self.building_list.append(building)
 
     def level_2(self):
+        self.total_time = 0.0
         arcade.set_background_color(arcade.color.BLACK)
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
-        for i in range(60):
+        for i in range(40):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
             self.coin_list.append(coin)
 
-        for x in range(100):
+        for x in range(20):
             building = arcade.Sprite("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
             building.height = random.randint(500, 800)
-            building.width = random.randint(25, 200)
             self.building_list.append(building)
 
     def setup(self):
@@ -107,15 +109,19 @@ class LevelOne(arcade.View):
         self.building_list.draw()
         self.coin_list.draw()
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 700, 20, arcade.color.WHITE, 20)
-
+        arcade.draw_text(output, 750, 20, arcade.color.WHITE, 20)
+        minutes = int(self.total_time) // 60
+        seconds = int(self.total_time) % 60
+        output = f"Time: {minutes:02d}: {seconds:02d}"
+        arcade.draw_text(output, 300, 300, arcade.color.WHITE, 30)
         output = f"Level: {self.level}"
-        arcade.draw_text(output, 700, 45, arcade.color.WHITE, 20)
+        arcade.draw_text(output, 750, 45, arcade.color.WHITE, 20)
 
     def on_update(self, delta_time):
         self.player_sprite.update()
         self.building_list.update()
         self.coin_list.update()
+        self.total_time += delta_time
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
         for coin in coin_hit_list:
             coin.remove_from_sprite_lists()
@@ -131,13 +137,11 @@ class LevelOne(arcade.View):
             changed = True
         if changed:
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT)
-        if self.coin_list == 0 and self.score < 0:
-            game_over = GameOver()
-            self.window.show_view(game_over)
         if self.score == 25 and self.level == 1:
-            self.level += 1
             arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
+            self.level += 1
             self.level_2()
+
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
