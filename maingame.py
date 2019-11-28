@@ -38,6 +38,16 @@ class GameOver(arcade.View):
         self.game_over.draw()
 
 
+class GameWon(arcade.View):
+    game_won = arcade.Sprite("images/game_won.png")
+
+    def on_draw(self):
+        arcade.start_render()
+        self.game_won.center_x = WINDOW_WIDTH / 2
+        self.game_won.center_y = WINDOW_HEIGHT / 2
+        self.game_won.draw()
+
+
 class LevelOne(arcade.View):
     def __init__(self):
         super().__init__()
@@ -68,6 +78,8 @@ class LevelOne(arcade.View):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
+            coin.angle = random.randrange(360)
+            coin.change_angle = random.randrange(-5, 6)
             self.coin_list.append(coin)
         for x in range(20):
             building = Building("images/building.png", scale=1)
@@ -78,24 +90,19 @@ class LevelOne(arcade.View):
 
     def level_2(self):
         self.total_time = 0.0
+        arcade.set_background_color(arcade.color.SUNSET_ORANGE)
+        self.player_sprite.center_x = 0
+        self.player_sprite.center_y = 0
+        self.score = 0
+
+    def level_3(self):
+        self.total_time = 0.0
         arcade.set_background_color(arcade.color.BLACK)
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
         self.score = 0
-        for i in range(40):
-            coin = Coin("images/coin.png", .15)
-            coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
-            coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
-            coin.angle = random.randrange(360)
-            coin.change_angle = random.randrange(-5, 6)
-            self.coin_list.append(coin)
 
-        for x in range(20):
-            building = Building("images/building.png", scale=1)
-            building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
-            building.center_y = 0
-            building.height = random.randint(500, 800)
-            self.building_list.append(building)
+
 
     def setup(self):
         self.level = 1
@@ -109,7 +116,7 @@ class LevelOne(arcade.View):
         self.player_sprite.draw()
         self.building_list.draw()
         self.coin_list.draw()
-        arcade.draw_rectangle_filled(self.player_sprite.center_x + 50, 45, 100, 50, arcade.color.BLACK)
+        arcade.draw_rectangle_outline(self.player_sprite.center_x + 50, 45, 100, 50, arcade.color.WHITE)
         output = f"Score: {self.score}"
         arcade.draw_text(output, self.player_sprite.center_x, 20, arcade.color.WHITE, 20)
         minutes = int(self.total_time) // 60
@@ -118,7 +125,6 @@ class LevelOne(arcade.View):
         arcade.draw_text(output, self.player_sprite.center_x, 300, arcade.color.WHITE, 30)
         output = f"Level: {self.level}"
         arcade.draw_text(output, self.player_sprite.center_x, 45, arcade.color.WHITE, 20)
-
 
     def on_update(self, delta_time):
         self.player_sprite.update()
@@ -143,12 +149,22 @@ class LevelOne(arcade.View):
         if self.score < 25 and self.total_time > 60:
             self.game_over = True
         if self.game_over:
+            arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             game_over = GameOver()
             self.window.show_view(game_over)
         if self.score == 25 and self.level == 1:
             arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             self.level += 1
             self.level_2()
+        if self.score == 25 and self.level == 2:
+            arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
+            self.level += 1
+            self.level_3()
+        if self.score == 25 and self.level == 3:
+            self.game_won = True
+        if self.game_won:
+            game_won = GameWon()
+            self.window.show_view(game_won)
 
 
 
