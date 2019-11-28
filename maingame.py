@@ -1,6 +1,5 @@
 from sprites import *
 
-
 class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
 
@@ -82,6 +81,7 @@ class LevelOne(arcade.View):
         arcade.set_background_color(arcade.color.BLACK)
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
+        self.score = 0
         for i in range(40):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
@@ -109,6 +109,7 @@ class LevelOne(arcade.View):
         self.player_sprite.draw()
         self.building_list.draw()
         self.coin_list.draw()
+        arcade.draw_rectangle_filled(self.player_sprite.center_x + 50, 45, 100, 50, arcade.color.BLACK)
         output = f"Score: {self.score}"
         arcade.draw_text(output, self.player_sprite.center_x, 20, arcade.color.WHITE, 20)
         minutes = int(self.total_time) // 60
@@ -117,6 +118,7 @@ class LevelOne(arcade.View):
         arcade.draw_text(output, self.player_sprite.center_x, 300, arcade.color.WHITE, 30)
         output = f"Level: {self.level}"
         arcade.draw_text(output, self.player_sprite.center_x, 45, arcade.color.WHITE, 20)
+
 
     def on_update(self, delta_time):
         self.player_sprite.update()
@@ -138,7 +140,7 @@ class LevelOne(arcade.View):
             changed = True
         if changed:
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left, self.view_bottom, WINDOW_HEIGHT)
-        if self.total_time == 60 and self.score < 25:
+        if self.score < 25 and self.total_time > 60:
             self.game_over = True
         if self.game_over:
             game_over = GameOver()
