@@ -14,9 +14,10 @@ class Player(arcade.Sprite):
         if self.top > WINDOW_HEIGHT - 1:
             self.top = WINDOW_HEIGHT - 1
 
+
 class Building(arcade.Sprite):
     def update(self):
-        self.center_y +=.1
+        self.center_y += .1
 
 
 class Coin(arcade.Sprite):

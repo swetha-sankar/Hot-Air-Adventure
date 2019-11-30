@@ -1,7 +1,9 @@
 from sprites import *
 
+
 class Introduction(arcade.View):
     start = arcade.Sprite("images/intro_screen.png")
+
 
     def on_draw(self):
         arcade.start_render()
@@ -60,6 +62,7 @@ class LevelOne(arcade.View):
         self.game_won = False
         self.level = 1
         self.total_time = 0.0
+        self.level_1_music = arcade.load_sound('sounds/theme.wav')
 
         # Sprite lists
         self.building_list = arcade.SpriteList()
@@ -74,6 +77,7 @@ class LevelOne(arcade.View):
     def level_1(self):
         self.total_time = 0.0
         arcade.set_background_color(arcade.color.SKY_BLUE)
+        arcade.play_sound(self.level_1_music)
         for i in range(60):
             coin = Coin("images/coin.png", .15)
             coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
@@ -85,7 +89,7 @@ class LevelOne(arcade.View):
             building = Building("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
-            building.height = random.randint(500, 800)
+            building.height = random.randint(400, 700)
             self.building_list.append(building)
 
     def level_2(self):
@@ -94,6 +98,13 @@ class LevelOne(arcade.View):
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
         self.score = 0
+        for i in range(30):
+            coin = Coin("images/coin.png", .15)
+            coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
+            coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
+            coin.angle = random.randrange(360)
+            coin.change_angle = random.randrange(-5, 6)
+            self.coin_list.append(coin)
 
     def level_3(self):
         self.total_time = 0.0
@@ -101,8 +112,12 @@ class LevelOne(arcade.View):
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
         self.score = 0
-
-
+        for x in range(10):
+            building = Building("images/building.png", scale=1)
+            building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
+            building.center_y = 0
+            building.height = random.randint(400, 700)
+            self.building_list.append(building)
 
     def setup(self):
         self.level = 1
@@ -165,8 +180,6 @@ class LevelOne(arcade.View):
         if self.game_won:
             game_won = GameWon()
             self.window.show_view(game_won)
-
-
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
