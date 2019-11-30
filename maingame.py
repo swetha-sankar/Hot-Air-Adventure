@@ -62,8 +62,10 @@ class LevelOne(arcade.View):
         self.game_won = False
         self.level = 1
         self.total_time = 0.0
+        # Sounds
         self.level_1_music = arcade.load_sound('sounds/theme.wav')
-
+        self.level_3_music = arcade.load_sound('sounds/theme2.wav')
+        self.level_up = arcade.load_sound('sounds/levelup.wav')
         # Sprite lists
         self.building_list = arcade.SpriteList()
         self.player_list = arcade.SpriteList()
@@ -112,11 +114,19 @@ class LevelOne(arcade.View):
         self.player_sprite.center_x = 0
         self.player_sprite.center_y = 0
         self.score = 0
+        arcade.play_sound(self.level_3_music)
+        for i in range(20):
+            coin = Coin("images/coin.png", .15)
+            coin.center_x = random.randrange(WINDOW_WIDTH * 1.75)
+            coin.center_y = random.randrange(WINDOW_HEIGHT, WINDOW_HEIGHT * 1.75)
+            coin.angle = random.randrange(360)
+            coin.change_angle = random.randrange(-5, 6)
+            self.coin_list.append(coin)
         for x in range(10):
             building = Building("images/building.png", scale=1)
             building.center_x = random.randrange(WINDOW_WIDTH * 1.75)
             building.center_y = 0
-            building.height = random.randint(400, 700)
+            building.height = random.randint(400, 600)
             self.building_list.append(building)
 
     def setup(self):
@@ -170,14 +180,17 @@ class LevelOne(arcade.View):
         if self.score == 25 and self.level == 1:
             arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             self.level += 1
+            arcade.play_sound(self.level_up)
             self.level_2()
         if self.score == 25 and self.level == 2:
             arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             self.level += 1
+            arcade.play_sound(self.level_up)
             self.level_3()
         if self.score == 25 and self.level == 3:
             self.game_won = True
         if self.game_won:
+            arcade.set_viewport(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT)
             game_won = GameWon()
             self.window.show_view(game_won)
 
