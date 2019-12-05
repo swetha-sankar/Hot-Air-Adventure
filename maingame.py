@@ -2,10 +2,15 @@ from sprites import *
 
 
 class Introduction(arcade.View):
+    '''
+
+
+
+    '''
     start = arcade.Sprite("images/intro_screen.png")
 
-
     def on_draw(self):
+        ''' Defines '''
         arcade.start_render()
         self.start.center_x = WINDOW_WIDTH / 2
         self.start.center_y = WINDOW_HEIGHT / 2
