@@ -36,9 +36,11 @@ Swetha Sankar: swetha@udel.edu
 
 Acknowledgments:
 
-Sounds: Background music and sound effects from freesounds.org. Level 1/2/3 themes from @mativve and "Level Up" sound effect from @dersuperanton. 
+Sounds: 
+Background music and sound effects from freesounds.org. Level 1/2/3 themes from @mativve and "Level Up" sound effect from @dersuperanton. 
 
-Images: Background images created with canva.com.
+Images: 
+Background images created with canva.com.
 
 Coin image from https://dlpng.com/png/185509. 
 
